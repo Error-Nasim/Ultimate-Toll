@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ultimate Utility Toolkit</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-container">
+      <div class="sidebar">
+        <div class="logo">
+          <i class="bi bi-app-indicator"></i>
+          <span>Utility Toolkit</span>
+        </div>
+        <nav id="nav-menu" class="nav-hidden">
+          <button onclick="showTool('calculator')" data-tool="calculator">
+            <i class="bi bi-calculator"></i> Calculator
+          </button>
+          <button onclick="showTool('stopwatch')" data-tool="stopwatch">
+            <i class="bi bi-stopwatch"></i> Stopwatch
+          </button>
+          <button onclick="showTool('counter')" data-tool="counter">
+            <i class="bi bi-plus-minus"></i> Counter
+          </button>
+          <button onclick="showTool('todo')" data-tool="todo">
+            <i class="bi bi-list-task"></i> To-Do List
+          </button>
+          <button onclick="showTool('timer')" data-tool="timer">
+            <i class="bi bi-alarm"></i> Timer
+          </button>
+          <button onclick="showTool('notepad')" data-tool="notepad">
+            <i class="bi bi-journal-text"></i> Notepad
+          </button>
+          <button onclick="showTool('currency')" data-tool="currency">
+            <i class="bi bi-currency-exchange"></i> Currency Converter
+          </button>
+          <button onclick="showTool('qrgenerator')" data-tool="qrgenerator">
+            <i class="bi bi-qr-code"></i> QR Code Generator
+          </button>
+        </nav>
+      </div>
+      <main class="main-content">
+        <!-- Calculator -->
+        <div id="calculator" class="tool active">
+          <div class="tool-header">
+            <h2>Calculator</h2>
+          </div>
+          <div class="calculator-wrapper">
+            <input type="text" id="calc-display" readonly />
+            <div class="calc-buttons">
+              <button class="clear" onclick="clearDisplay()">C</button>
+              <button class="operator" onclick="appendToDisplay('%')">%</button>
+              <button class="operator" onclick="appendToDisplay('/')">÷</button>
+              <button onclick="appendToDisplay('7')">7</button>
+              <button onclick="appendToDisplay('8')">8</button>
+              <button onclick="appendToDisplay('9')">9</button>
+              <button class="operator" onclick="appendToDisplay('*')">×</button>
+              <button onclick="appendToDisplay('4')">4</button>
+              <button onclick="appendToDisplay('5')">5</button>
+              <button onclick="appendToDisplay('6')">6</button>
+              <button class="operator" onclick="appendToDisplay('-')">-</button>
+              <button onclick="appendToDisplay('1')">1</button>
+              <button onclick="appendToDisplay('2')">2</button>
+              <button onclick="appendToDisplay('3')">3</button>
+              <button class="operator" onclick="appendToDisplay('+')">+</button>
+              <button onclick="appendToDisplay('0')">0</button>
+              <button onclick="appendToDisplay('.')">.</button>
+              <button class="clear" onclick="calculate()">=</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stopwatch -->
+        <div id="stopwatch" class="tool">
+          <div class="tool-header">
+            <h2>Stopwatch</h2>
+          </div>
+          <div class="stopwatch-display" id="stopwatch-display">00:00:00</div>
+          <div class="stopwatch-controls">
+            <button onclick="startStopwatch()">
+              <i class="bi bi-play-fill"></i>
+            </button>
+            <button onclick="stopStopwatch()">
+              <i class="bi bi-pause-fill"></i>
+            </button>
+            <button onclick="resetStopwatch()">
+              <i class="bi bi-stop-fill"></i>
+            </button>
+            <button onclick="lapStopwatch()">
+              <i class="bi bi-flag-fill"></i>
+            </button>
+          </div>
+          <ul id="lap-list" class="lap-times"></ul>
+        </div>
+
+        <!-- Counter -->
+        <div id="counter" class="tool">
+          <div class="tool-header">
+            <h2>Counter</h2>
+          </div>
+          <div class="counter-display" id="counter-display">0</div>
+          <div class="counter-controls">
+            <button onclick="decrementCounter()">
+              <i class="bi bi-dash-lg"></i>
+            </button>
+            <button onclick="resetCounter()">Reset</button>
+            <button onclick="incrementCounter()">
+              <i class="bi bi-plus-lg"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- To-Do List -->
+        <div id="todo" class="tool">
+          <div class="tool-header">
+            <h2>To-Do List</h2>
+          </div>
+          <div class="todo-input">
+            <input type="text" id="todo-input" placeholder="Add a new task" />
+            <button onclick="addTask()"><i class="bi bi-plus"></i></button>
+          </div>
+          <ul id="todo-list" class="todo-list"></ul>
+        </div>
+
+        <!-- Timer -->
+        <div id="timer" class="tool">
+          <div class="tool-header">
+            <h2>Countdown Timer</h2>
+          </div>
+          <div class="timer-inputs">
+            <input type="number" id="hours" placeholder="Hours" min="0" />
+            <input
+              type="number"
+              id="minutes"
+              placeholder="Minutes"
+              min="0"
+              max="59"
+            />
+            <input
+              type="number"
+              id="seconds"
+              placeholder="Seconds"
+              min="0"
+              max="59"
+            />
+            <audio id="timerSound" src="/TIme-Up.mp3"></audio>
+          </div>
+          <div class="timer-display" id="timer-display">00:00:00</div>
+          <div class="timer-controls">
+            <button onclick="startTimer()">Start</button>
+            <button onclick="pauseTimer()">Pause</button>
+            <button onclick="resetTimer()">Reset</button>
+          </div>
+        </div>
+
+        <!-- Notepad -->
+        <div id="notepad" class="tool">
+          <div class="tool-header">
+            <h2>Notepad</h2>
+          </div>
+          <textarea
+            id="notepad-content"
+            placeholder="Start typing your notes here..."
+            rows="20"
+            cols="130"
+          ></textarea>
+          <div class="notepad-controls">
+            <button onclick="saveNote()">Save</button>
+            <button onclick="clearNote()">Clear</button>
+          </div>
+        </div>
+
+        <!-- Currency Converter -->
+        <div id="currency" class="tool">
+          <div class="tool-header">
+            <h2>Currency Converter</h2>
+          </div>
+          <div class="currency-inputs">
+            <select id="from-currency">
+              <option value="USD">USD</option>
+              <option value="EUR">EUR</option>
+              <option value="GBP">GBP</option>
+              <option value="JPY">JPY</option>
+              <option value="BDT">BDT</option>
+              <option value="INR">INR</option>
+            </select>
+            <input type="number" id="amount" placeholder="Enter amount" />
+            <select id="to-currency">
+              <option value="EUR">EUR</option>
+              <option value="USD">USD</option>
+              <option value="GBP">GBP</option>
+              <option value="JPY">JPY</option>
+              <option value="BDT">BDT</option>
+              <option value="INR">INR</option>
+            </select>
+            <button onclick="convertCurrency()">Convert</button>
+          </div>
+          <div id="currency-result" class="currency-result"></div>
+        </div>
+
+        <!-- QR Code Generator -->
+        <div id="qrgenerator" class="tool">
+          <div class="tool-header">
+            <h2>QR Code Generator</h2>
+          </div>
+          <div class="qr-inputs">
+            <input type="text" id="qr-text" placeholder="Enter text or URL" />
+            <button onclick="generateQR()">Generate QR</button>
+          </div>
+          <div id="qr-code" class="qr-code-display"></div>
+        </div>
+      </main>
+    </div>
+    <!-- Your app content -->
+
+    <button id="dark-mode-toggle">🌓</button>
+
+    <script>
+      const darkModeToggle = document.getElementById("dark-mode-toggle");
+      const body = document.body;
+
+      // Check for saved dark mode preference
+      if (localStorage.getItem("dark-mode") === "enabled") {
+        body.classList.add("dark-mode");
+      }
+
+      darkModeToggle.addEventListener("click", () => {
+        body.classList.toggle("dark-mode");
+
+        // Save preference
+        if (body.classList.contains("dark-mode")) {
+          localStorage.setItem("dark-mode", "enabled");
+        } else {
+          localStorage.removeItem("dark-mode");
+        }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
